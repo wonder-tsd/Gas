@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <? const headTemplate = HtmlService.createTemplateFromFile("head"); ?>
+  <?!= headTemplate.evaluate().getContent(); ?>
+</head>
+
+<body>
+  <? const navigationTemplate = HtmlService.createTemplateFromFile("nav"); ?>
+  <? navigationTemplate.url = url; ?>
+  <?!= navigationTemplate.evaluate().getContent(); ?>
+  <main class="m-3">
+    <h1>Home</h1>
+    <br/>
+    <h4>案件管理のHomeページです。</h4>
+    <br/>
+    <article>
+      <h3>新規に案件を登録する</h3>
+      <p>
+        下記のリンクから件名と概要を入力してください。<br>
+        Googleドライブに共用の案件フォルダーが作成されます。<br>
+        <a href="<?= url ?>/add">新規案件登録へ</a>
+      </p>
+    </article>
+    <br/>
+    <article>
+      <h3>運用ルール</h3>
+      <p>
+        ドキュメント、Q&A、進捗管理は案件フォルダーで共有します。<br>
+        案件フォルダーからGmailも送信できます。<br>
+        必要あれば、メッセージを送信してください。<br>
+        掲示板も作ります。（気が向けば・・・）
+      </p>
+      <p>
+        案件が完了したら編集画面からクローズしてください。<br>
+        クローズした案件はアーカイブされます。
+      </p>
+    </article>
+  </main>
+</body>
+
+</html>

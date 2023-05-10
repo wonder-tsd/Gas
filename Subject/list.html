@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <? const headTemplate = HtmlService.createTemplateFromFile("head"); ?>
+  <?!= headTemplate.evaluate().getContent(); ?>
+</head>
+
+<body>
+  <? const navigationTemplate = HtmlService.createTemplateFromFile("nav"); ?>
+  <? navigationTemplate.url = url; ?>
+  <?!= navigationTemplate.evaluate().getContent(); ?>
+  <main class="m-3">
+    <h1>案件一覧</h1>
+    <div class="m-3">
+      <div>
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="<?= url ?>/add">新規案件登録</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url ?>/list?filter=open">案件一覧(Open)</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?= url ?>/list?filter=closed">案件一覧(Closed)</a></li>
+        </ul>
+        <table class="table" style="table-layout: fixed; width: 100%;">
+          <thead>
+            <tr>
+              <th style="width:3em;">ID</th>
+              <th style="width:15em;">件名・登録日</th>
+              <th>概要</th>
+              <th style="width:8em;">案件フォルダー</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?!= getSubjects(filter); ?>
+          </tbody>
+        </table>
+  </main>
+</body>
+
+</html>
