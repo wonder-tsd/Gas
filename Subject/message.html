@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <? const headTemplate = HtmlService.createTemplateFromFile("head"); ?>
+  <?!= headTemplate.evaluate().getContent(); ?>
+
+  <script>
+
+    function sendMsg(){
+      if (!confirm('送信してもよろしいですか？')) {
+        return false;
+      } else {
+        const msg = document.getElementById("msg-form-id");
+        google.script.run
+          .withSuccessHandler(success)
+          .withFailureHandler(failure)
+          .message_sendMsg(msg);
+      }
+    }
+
+    function success(){
+      const now =  Date.now();
+      window.top.location.href = "<?= url ?>/message?s=" + now;
+    }
+
+    function failure(){
+      alert("送信できませんでした。");
+    }
+
+  </script>
+</head>
+
+<body>
+  <? const navigationTemplate = HtmlService.createTemplateFromFile("nav"); ?>
+  <? navigationTemplate.url = url; ?>
+  <?!= navigationTemplate.evaluate().getContent(); ?>
+  <main class="m-3">
+    <h1>メッセージ送信</h1>
+    <form id="msg-form-id">
+      <div class="mb-3">
+        <label>件名</label>
+        <input type="text" class="form-control" name="title">
+      </div>
+      <div class="mb-3">
+        <label>内容</label>
+        <textarea class="form-control" rows="5" name="msg"></textarea>
+      </div>
+      <button type="button"class="btn btn-primary m-1" onclick="sendMsg()">送信</button>
+    </form>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <? const headTemplate = HtmlService.createTemplateFromFile("head"); ?>
+  <?!= headTemplate.evaluate().getContent(); ?>
+
+  <script>
+  
+    function updateSubject(){
+      const subject = document.getElementById("sbj-form-id");
+      google.script.run
+        .withSuccessHandler(success)
+        .withFailureHandler(failure)
+        .edit_updateSubject(subject);
+    }
+
+    function closeSubject(){
+      if (!confirm('Closeしてもよろしいですか？')) {
+        return false;
+      } else {
+        const subject = document.getElementById("sbj-form-id");
+        google.script.run
+          .withSuccessHandler(success)
+          .withFailureHandler(failure)
+          .edit_closeSubject(subject);
+      }
+    }
+
+    function success(){
+      window.top.location.href = "<?= url ?>/list";
+    }
+
+    function failure(){
+      alert("登録できませんでした。");
+    }
+  
+    function moveToClosed(){
+      window.top.location.href = "<?= url ?>/list?filter=closed";
+    }
+
+  </script>
+</head>
+
+<body>
+  <? const navigationTemplate = HtmlService.createTemplateFromFile("nav"); ?>
+  <? navigationTemplate.url = url; ?>
+  <?!= navigationTemplate.evaluate().getContent(); ?>
+  <? let subject = edit_getSubject(sid); ?>
+  <main class="m-3">
+    <h1>案件編集</h1>
+    <form id="sbj-form-id">
+      <div class="mb-3">
+        <p>
+          <?= '#' + subject.sid ?>
+          <?!= getEditStatus(subject.state, 1) ?>
+        </p>
+        <p>
+          <?= subject.dt ?>
+          <?= subject.author ?>
+        </p>
+      </div>
+      <div class="mb-3">
+        <label>件名</label>
+        <input type="text" class="form-control" name="title" value="<?= subject.title ?>" />
+      </div>
+      <div class="mb-3">
+        <label>概要（要点のみ記載し、詳細は案件フォルダーにドキュメントを登録してください）</label>
+        <textarea class="form-control" rows="10" name="detail"><?= subject.detail ?></textarea>
+      </div>
+      <input type="hidden" name="sid" value="<?= sid ?>" />
+      <?!= edit_getEditButton(subject.state) ?>
+    </form>
+  </main>
+</body>
+
+</html>

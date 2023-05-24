@@ -12,7 +12,7 @@
       google.script.run
         .withSuccessHandler(success)
         .withFailureHandler(failure)
-        .registSubject(subject);
+        .add_registSubject(subject);
     }
 
     function success(){
